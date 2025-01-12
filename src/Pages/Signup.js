@@ -1,6 +1,8 @@
     import { Container,Card, CardHeader,CardBody,Form,FormGroup, Label,Input, Button, Row, Col } from "reactstrap";
     import Base from "../Components/Base";
+    import { signUp } from "../Services/user_service";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
     const Signup=()=>{
            const[data,setData] =useState({
@@ -37,6 +39,15 @@ import { useEffect, useState } from "react";
                 event.preventDefault();
                 //data validation
                 //call server API to save
+                signUp(data).then((resp)=>{
+                    console.log(resp);
+                    console.log("Successfull");
+                    toast.success("User registed Successfully");
+                    resetData();
+                }).catch((error)=>{
+                    console.log(error);
+                    console.log("Failed");
+                });
                 console.log(data)
 
             }

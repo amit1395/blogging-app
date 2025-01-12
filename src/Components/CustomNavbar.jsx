@@ -44,7 +44,7 @@ const CustomNavbar=()=>{
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
-            <NavbarText>Youtube</NavbarText>
+            <NavbarText><a href="https://www.youtube.com" target="_blank">Youtube</a></NavbarText>
           </Collapse>
         </Navbar>
       </div>
