@@ -1,4 +1,4 @@
-    import { Container,Card, CardHeader,CardBody,Form,FormGroup, Label,Input, Button, Row, Col } from "reactstrap";
+    import { Container,Card, CardHeader,CardBody,Form,FormGroup, Label,Input, Button, Row, Col, FormFeedback } from "reactstrap";
     import Base from "../Components/Base";
     import { signUp } from "../Services/user_service";
 import { useEffect, useState } from "react";
@@ -37,18 +37,28 @@ import { toast } from "react-toastify";
             //submitting the form
             const submitForm=(event)=>{
                 event.preventDefault();
+               //if(error.isError){
+                //    toast.error("Invalid Data Please check before submitting !!!");
+                //    setError({...error,isError:fal})
+               //    return;
+               // }
                 //data validation
                 //call server API to save
                 signUp(data).then((resp)=>{
                     console.log(resp);
                     console.log("Successfull");
-                    toast.success("User registed Successfully");
+                    toast.success("User registed Successfully "+resp.id);
                     resetData();
                 }).catch((error)=>{
                     console.log(error);
                     console.log("Failed");
+                    //handle the error here
+                    setError({
+                        errors:error,
+                        isError:true
+                    })
                 });
-                console.log(data)
+               
 
             }
 
@@ -69,7 +79,12 @@ import { toast } from "react-toastify";
                             <Label for="name">Enter Name</Label>
                             <Input type="text" placeholder="Enter name here" id="name"
                             onChange={(e)=>handleChange(e,'name')}
-                            value={data.name}/> 
+                            value={data.name}
+                            invalid={error.errors?.response?.data?.name ? true:false }
+                            /> 
+                            <FormFeedback>
+                                {error.errors?.response?.data?.name }
+                            </FormFeedback>
                             
                         </FormGroup>
                         {/*email  field */}
@@ -77,7 +92,12 @@ import { toast } from "react-toastify";
                             <Label for="email">Enter Email</Label>
                             <Input type="email" placeholder="Enter email here" id="email"
                             onChange={(e)=>handleChange(e,'email')}
-                            value={data.email}/> 
+                            value={data.email}
+                            invalid={error.errors?.response?.data?.email ? true:false }
+                            /> 
+                            <FormFeedback>
+                                {error.errors?.response?.data?.email }
+                            </FormFeedback>
                             
                         </FormGroup>
                         {/*password  field */}
@@ -85,7 +105,12 @@ import { toast } from "react-toastify";
                             <Label for="password">Enter Password</Label>
                             <Input type="password" placeholder="Enter password here" id="password"
                             onChange={(e)=>handleChange(e,'password')}
-                            value={data.password}/> 
+                            value={data.password}
+                            invalid={error.errors?.response?.data?.password ? true:false }
+                            /> 
+                            <FormFeedback>
+                                {error.errors?.response?.data?.password }
+                            </FormFeedback>
                             
                         </FormGroup>
 
@@ -99,7 +124,12 @@ import { toast } from "react-toastify";
                                 type="textarea"
                                     style={{height:"250px"}}
                                     onChange={(e)=>handleChange(e,'about')}
-                                    value={data.about}/>
+                                    value={data.about}
+                                    invalid={error.errors?.response?.data?.about ? true:false }
+                                    /> 
+                                    <FormFeedback>
+                                        {error.errors?.response?.data?.about }
+                                    </FormFeedback>
                         </FormGroup>
                         <Container className="text-center">
                             <Button color="dark"> Register</Button>
